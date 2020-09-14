@@ -1,3 +1,4 @@
+# Dependencies
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
@@ -6,12 +7,16 @@ import datetime as dt
 import numpy as np
 from flask import Flask, jsonify
 
+# Connecting the sqlite file to climateapp.py
 engine = create_engine("sqlite:///Resources/hawaii.sqlite")
 
+# Mapping classes to the sqlite schema
 Base = automap_base()
 
+# Reflecting tables in database
 Base.prepare(engine, reflect=True)
 
+# 
 measurement = Base.classes.measurement
 station = Base.classes.station
 
