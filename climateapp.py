@@ -16,7 +16,7 @@ Base = automap_base()
 # Reflecting tables in database
 Base.prepare(engine, reflect=True)
 
-# 
+# mapping each class in schema
 measurement = Base.classes.measurement
 station = Base.classes.station
 
@@ -24,6 +24,7 @@ app = Flask(__name__)
 
 session = Session(engine)
 
+# Home Page
 @app.route("/")
 def welcome():
     """List of API Routes."""
@@ -35,6 +36,7 @@ def welcome():
 
 session.close
 
+# Precipitiation Page
 @app.route("/api/v1.0/precipitation")
 def precipitiation():
     session = Session(engine)
@@ -48,6 +50,8 @@ def precipitiation():
     return jsonify(rainfall)
 
 session.close()
+
+# Start of vacation page
 @app.route("/api/v1.0/<start>")
 def start (start = None):
     session = Session(engine)
@@ -56,6 +60,8 @@ def start (start = None):
     return jsonify(tobs_only)
 
 session.close()
+
+# Start and Ending of vacation
 @app.route("/api/v1.0/<start>/<end>")
 def start_end(start = None, end = None):
     session = Session(engine)
@@ -65,6 +71,7 @@ def start_end(start = None, end = None):
 
 session.close()
 
+# Station page
 @app.route("/api/v1.0/station")
 def station():
     stations = session.query(station.name, station.station).all()
@@ -73,5 +80,6 @@ def station():
 
 session.close()
 
+# App run statement
 if __name__ == "__main__":
     app.run(debug=True)
